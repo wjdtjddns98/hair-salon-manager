@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="회원관리" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="theme-color" content="#111111" />
+  <title>미용실 회원관리</title>
+  <link rel="manifest" href="manifest.json" />
+  <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png" />
+  <link rel="icon" type="image/png" sizes="64x64" href="icons/favicon-64.png" />
+  <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png" />
+  <link rel="apple-touch-icon" href="icons/icon-180.png" />
+  <!-- Pretendard 웹폰트 (오프라인이면 시스템 폰트로 자동 대체) -->
+  <link rel="stylesheet" as="style" crossorigin
+    href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <div id="app">
+    <!-- 사이드바 / 네비게이션 -->
+    <nav class="nav" id="nav">
+      <div class="nav__brand">
+        <span class="nav__logo" id="navLogo">✂️</span>
+        <span class="nav__title" id="brandName">미용실 회원관리</span>
+      </div>
+      <div class="cloud-status" id="cloudStatus"><span class="cloud-dot" style="background:#9b94a0"></span>로컬 전용</div>
+      <button class="nav__item is-active" data-view="dashboard">
+        <span class="nav__icon" data-icon="home"></span><span class="nav__label">홈</span>
+      </button>
+      <button class="nav__item" data-view="members">
+        <span class="nav__icon" data-icon="users"></span><span class="nav__label">회원</span>
+      </button>
+      <button class="nav__item" data-view="reservations">
+        <span class="nav__icon" data-icon="calendar"></span><span class="nav__label">예약</span>
+      </button>
+      <button class="nav__item" data-view="visits">
+        <span class="nav__icon" data-icon="scissors"></span><span class="nav__label">시술이력</span>
+      </button>
+      <button class="nav__item" data-view="stats">
+        <span class="nav__icon" data-icon="chart"></span><span class="nav__label">통계</span>
+      </button>
+      <button class="nav__item nav__item--bottom" data-view="settings">
+        <span class="nav__icon" data-icon="settings"></span><span class="nav__label">설정</span>
+      </button>
+    </nav>
+
+    <!-- 메인 콘텐츠 -->
+    <main class="main" id="main">
+      <div class="view" id="view"></div>
+    </main>
+  </div>
+
+  <!-- 플로팅 추가 버튼 (모바일) -->
+  <button class="fab" id="fab" data-icon="plus" aria-label="빠른 추가"></button>
+
+  <!-- 모달 -->
+  <div class="modal-backdrop" id="modalBackdrop" hidden>
+    <div class="modal" id="modal" role="dialog" aria-modal="true"></div>
+  </div>
+
+  <!-- 토스트 -->
+  <div class="toast-wrap" id="toastWrap"></div>
+
+  <!-- 잠금 화면 (PIN) -->
+  <div class="lock" id="lockScreen" hidden></div>
+
+  <script src="js/config.js"></script>
+  <script src="js/lib/supabase.js"></script>
+  <script src="js/db.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/icons.js"></script>
+  <script src="js/members.js"></script>
+  <script src="js/reservations.js"></script>
+  <script src="js/visits.js"></script>
+  <script src="js/stats.js"></script>
+  <script src="js/dashboard.js"></script>
+  <script src="js/settings.js"></script>
+  <script src="js/cloud.js"></script>
+  <script src="js/lock.js"></script>
+  <script src="js/app.js"></script>
+
+  <!-- 서비스 워커 등록 (오프라인 지원 / 홈화면 설치) -->
+  <script>
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", function () {
+        navigator.serviceWorker.register("sw.js").catch(function (err) {
+          console.warn("서비스 워커 등록 실패:", err);
+        });
+      });
+    }
+  </script>
+</body>
+</html>

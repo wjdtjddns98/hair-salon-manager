@@ -1,0 +1,22 @@
+# ===== 보안: 클라우드 키 (절대 커밋 금지) =====
+js/config.js
+
+# ===== 사용법 문서 (로컬 전용) =====
+사용설명서.md
+클라우드설정.md
+호스팅방법.md
+
+# ===== 에디터 / 도구 설정 =====
+.claude/
+.omc/
+.vscode/
+.idea/
+
+# ===== OS =====
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ===== 기타 =====
+node_modules/
+*.log

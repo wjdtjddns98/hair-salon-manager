@@ -111,11 +111,12 @@ const MemberPicker = (function () {
     };
     clearBtn.onclick = () => { applySelection(null); input.focus(); renderMenu(""); };
 
-    // 바깥 클릭 시 닫기
-    const outside = (e) => { if (!host.contains(e.target)) hideMenu(); };
+    // 바깥 클릭 시 닫기 — host 가 DOM 에서 사라지면(모달 닫힘) 리스너 자동 제거 (누수 방지)
+    const outside = (e) => {
+      if (!host.isConnected) { document.removeEventListener("click", outside); return; }
+      if (!host.contains(e.target)) hideMenu();
+    };
     document.addEventListener("click", outside);
-    // 모달이 닫히면 리스너 정리 (host 가 DOM 에서 사라지면 자동 무력화되지만 안전하게)
-    host._mpickCleanup = () => document.removeEventListener("click", outside);
 
     // 초기 선택값
     const initM = selectedId ? DB.getMember(selectedId) : null;

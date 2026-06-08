@@ -40,6 +40,7 @@
 └── js/
     ├── config.js       # 클라우드 설정 (※ git 제외 — config.example.js 참고)
     ├── icons.js        # SVG 라인 아이콘 세트
+    ├── memberpicker.js # 회원 검색 선택 컴포넌트 (예약/시술 폼)
     ├── db.js           # 데이터 계층 (localStorage + 클라우드 동기화 훅)
     ├── cloud.js        # Supabase 동기화 (실시간 + 오프라인 큐)
     ├── lock.js         # 앱 잠금(PIN)

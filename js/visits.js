@@ -100,10 +100,6 @@ const Visits = (function () {
   /* ---------- 시술 기록 폼 ---------- */
   function openForm(preset = {}) {
     const settings = DB.getSettings();
-    const members = DB.getMembers();
-    const memberOpts = ['<option value="">비회원 / 직접입력</option>']
-      .concat(members.map((m) => `<option value="${m.id}" ${preset.memberId === m.id ? "selected" : ""}>${U.esc(m.name)} (${U.fmtPhone(m.phone) || "번호없음"})</option>`))
-      .join("");
     const designerOpts = ['<option value="">선택</option>']
       .concat(settings.designers.map((d) => `<option>${U.esc(d)}</option>`)).join("");
     const svcDatalist = settings.services.map((s) => `<option value="${U.esc(s)}">`).join("");
@@ -118,7 +114,7 @@ const Visits = (function () {
           <div class="field-row">
             <div class="field">
               <label>회원</label>
-              <select name="memberId" id="vMember">${memberOpts}</select>
+              <div id="vMemberPick"></div>
             </div>
             <div class="field">
               <label>방문일</label>
@@ -271,11 +267,9 @@ const Visits = (function () {
     document.getElementById("addSvc").onclick = () => addRow();
     document.getElementById("vPoints").oninput = recalc;
 
-    // 회원 선택 시 비회원 이름 필드 토글 + 보유 포인트 안내 + 커트 현황
-    const mSel = document.getElementById("vMember");
+    // 회원 검색 선택기 — 선택/해제 시 비회원 필드 토글 + 보유 포인트 안내 + 커트 현황
     const nmField = document.getElementById("nonMemberName");
-    mSel.onchange = () => {
-      const mid = mSel.value;
+    function onMemberChange(mid) {
       nmField.style.display = mid ? "none" : "block";
       const m = DB.getMember(mid);
       const pInput = document.getElementById("vPoints");
@@ -283,8 +277,10 @@ const Visits = (function () {
         m ? `포인트 사용 (보유 ${U.num(m.points)}P)` : "포인트 사용";
       updateCutInfo();
       recalc();
-    };
-    if (preset.memberId) mSel.dispatchEvent(new Event("change"));
+    }
+    MemberPicker.create(document.getElementById("vMemberPick"), {
+      id: "vMember", name: "memberId", selectedId: preset.memberId, onChange: onMemberChange,
+    });
 
     form.onsubmit = (e) => {
       e.preventDefault();

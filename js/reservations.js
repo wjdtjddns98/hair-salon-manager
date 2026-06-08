@@ -117,9 +117,6 @@ const Reservations = (function () {
     const isEdit = !!res;
     const r = res || {};
     const settings = DB.getSettings();
-    const members = DB.getMembers();
-    const memberOpts = ['<option value="">비회원 / 직접입력</option>']
-      .concat(members.map((m) => `<option value="${m.id}" ${r.memberId === m.id ? "selected" : ""}>${U.esc(m.name)} (${U.fmtPhone(m.phone) || "번호없음"})</option>`)).join("");
     const designerOpts = ['<option value="">선택</option>']
       .concat(settings.designers.map((d) => `<option ${r.designer === d ? "selected" : ""}>${U.esc(d)}</option>`)).join("");
     const svcDatalist = settings.services.map((s) => `<option value="${U.esc(s)}">`).join("");
@@ -134,7 +131,7 @@ const Reservations = (function () {
         <div class="modal__body">
           <div class="field">
             <label>회원</label>
-            <select name="memberId" id="rMember">${memberOpts}</select>
+            <div id="rMemberPick"></div>
           </div>
           <div class="field-row" id="rNonMember" style="display:${r.memberId ? "none" : "grid"}">
             <div class="field"><label>이름</label><input name="name" value="${U.esc(r.name || "")}" placeholder="비회원 이름" /></div>
@@ -161,9 +158,11 @@ const Reservations = (function () {
         </div>
       </form>`);
 
-    const mSel = document.getElementById("rMember");
     const nm = document.getElementById("rNonMember");
-    mSel.onchange = () => { nm.style.display = mSel.value ? "none" : "grid"; };
+    MemberPicker.create(document.getElementById("rMemberPick"), {
+      id: "rMember", name: "memberId", selectedId: r.memberId,
+      onChange: (mid) => { nm.style.display = mid ? "none" : "grid"; },
+    });
 
     if (isEdit) {
       const del = document.getElementById("rDelete");

@@ -2,7 +2,7 @@
    Service Worker — 오프라인 지원 (앱 셸 캐싱)
    파일을 수정하면 아래 CACHE 버전을 올려주세요 (예: v2 → v3)
    ============================================================ */
-const CACHE = "salon-app-v13";
+const CACHE = "salon-app-v14";
 
 const ASSETS = [
   "./",

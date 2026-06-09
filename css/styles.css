@@ -80,7 +80,7 @@ input, select, textarea { font-family: inherit; font-size: 16px; color: var(--in
 .main::-webkit-scrollbar-thumb { background: var(--line-2); border-radius: 10px; }
 .main::-webkit-scrollbar-thumb:hover { background: var(--rose-soft); }
 
-#app { display: flex; height: 100vh; overflow: hidden; background: var(--bg); }
+#app { display: flex; height: 100vh; height: 100dvh; overflow: hidden; background: var(--bg); }
 
 /* ===== 네비게이션 (데스크톱 사이드바) ===== */
 .nav {
@@ -397,7 +397,7 @@ input, select, textarea { font-family: inherit; font-size: 16px; color: var(--in
 
 /* ===== 플로팅 추가 버튼 (모바일) ===== */
 .fab {
-  display: none; position: fixed; right: 18px; bottom: 84px; z-index: 45;
+  display: none; position: fixed; right: 18px; bottom: calc(84px + env(safe-area-inset-bottom)); z-index: 45;
   width: 58px; height: 58px; border-radius: 20px;
   background: linear-gradient(135deg, #2e2e2e, #000); color: #fff;
   font-size: 28px; align-items: center; justify-content: center;
@@ -438,6 +438,8 @@ input, select, textarea { font-family: inherit; font-size: 16px; color: var(--in
     width: 100%; flex-direction: row; padding: 7px 6px 9px; gap: 0;
     box-shadow: 0 -4px 24px rgba(120,70,90,0.16); justify-content: space-around;
     background: linear-gradient(0deg, var(--rose-deep), var(--rose));
+    /* 아이폰 홈 인디케이터 안전영역 확보 */
+    padding-bottom: calc(9px + env(safe-area-inset-bottom));
   }
   .nav__brand { display: none; }
   .nav__item { flex: 1; padding: 8px 2px; min-height: 56px; border-radius: 14px; }

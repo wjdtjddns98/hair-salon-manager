@@ -230,12 +230,13 @@ input, select, textarea { font-family: inherit; font-size: 16px; color: var(--in
 .mpick { position: relative; }
 .mpick__control { position: relative; display: flex; align-items: center; }
 .mpick__icon { position: absolute; left: 14px; display: flex; opacity: 0.45; pointer-events: none; }
-.mpick__input {
-  width: 100%; padding: 14px 40px 14px 40px; border: 1.5px solid var(--line-2); border-radius: 13px;
+/* .field input 규칙(specificity)을 이기도록 .mpick 로 스코프 */
+.mpick .mpick__input {
+  width: 100%; padding: 14px 40px 14px 42px; border: 1.5px solid var(--line-2); border-radius: 13px;
   outline: none; background: var(--surface-2); transition: border 0.18s, background 0.18s, box-shadow 0.18s;
 }
-.mpick__input:focus { border-color: var(--rose); background: #fff; box-shadow: 0 0 0 4px var(--rose-tint); }
-.mpick__input--selected { font-weight: 700; background: #fff; border-color: var(--ink); }
+.mpick .mpick__input:focus { border-color: var(--rose); background: #fff; box-shadow: 0 0 0 4px var(--rose-tint); }
+.mpick .mpick__input--selected { font-weight: 700; background: #fff; border-color: var(--ink); }
 .mpick__clear {
   position: absolute; right: 8px; width: 28px; height: 28px; border-radius: 50%;
   display: flex; align-items: center; justify-content: center; color: var(--ink-3); font-size: 19px; line-height: 1;
@@ -435,12 +436,16 @@ input, select, textarea { font-family: inherit; font-size: 16px; color: var(--in
 @media (max-width: 760px) {
   #app { flex-direction: column-reverse; }
   .nav {
+    /* 뷰포트 하단에 고정 — 새로고침/주소창 변화에도 항상 화면 맨 아래 */
+    position: fixed; bottom: 0; left: 0; right: 0; z-index: 50;
     width: 100%; flex-direction: row; padding: 7px 6px 9px; gap: 0;
     box-shadow: 0 -4px 24px rgba(120,70,90,0.16); justify-content: space-around;
     background: linear-gradient(0deg, var(--rose-deep), var(--rose));
     /* 아이폰 홈 인디케이터 안전영역 확보 */
     padding-bottom: calc(9px + env(safe-area-inset-bottom));
   }
+  /* 고정된 하단바에 콘텐츠가 가리지 않도록 여백 (safe-area 포함) */
+  .main { padding-bottom: env(safe-area-inset-bottom); }
   .nav__brand { display: none; }
   .nav__item { flex: 1; padding: 8px 2px; min-height: 56px; border-radius: 14px; }
   .nav__item.is-active { background: rgba(255,255,255,0.96); }
